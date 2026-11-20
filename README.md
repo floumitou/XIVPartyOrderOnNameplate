@@ -1,16 +1,17 @@
-# PartyOrderOnNameplate
+# Party Order on Nameplate
 
-PartyOrderOnNameplate is a FFXIV plugin that displays each party member's current party order number beside their in-game nameplate, making teammates easier to identify at a glance for targeting.
+Party Order on Nameplate is a FFXIV plugin that displays each party member's current party order number beside their in-game nameplate, making teammates easier to identify at a glance for targeting.
 
 ## Install
 
+Requires XIVLauncher.
 This plugin is not currently distributed through the official Dalamud plugin repository. To install a GitHub release:
 
-1. Download the latest release ZIP from the [Releases page](https://github.com/floumitou/XIVPartyNumberNameplate/releases).
+1. Download the latest release ZIP from the [Releases page](https://github.com/floumitou/XIVPartyNumberNameplate/releases). (PartyOrderOnNameplate.zip)
 2. Extract the ZIP.
-3. In XIVLauncher, open Dalamud settings and enable **Experimental** or **Developer** mode.
-4. Under **Dev Plugin Locations**, add the extracted folder, then save the settings.
-5. Open `/xlplugins`, find PartyOrderOnNameplate under **Installed Dev Plugins**, and enable it.
+3. In game, open Dalamud settings and enable **Experimental** or **Developer** mode.
+4. Under **Dev Plugin Locations**, add the extracted dll, then save the settings.
+5. Open `/xlplugins`, find "Party Order on Nameplate" under **Installed Dev Plugins**, and enable it.
 
 To update the plugin, download the newer release, replace the extracted files, and restart or reload the plugin through the Dalamud plugin installer.
 

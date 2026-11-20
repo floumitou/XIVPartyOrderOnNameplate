@@ -50,12 +50,14 @@ public sealed class Plugin : IDalamudPlugin
 
         PluginInterface.UiBuilder.Draw += WindowSystem.Draw;
         PluginInterface.UiBuilder.OpenMainUi += ToggleMainUi;
+        PluginInterface.UiBuilder.OpenConfigUi += ToggleMainUi;
     }
 
     public void Dispose()
     {
         PluginInterface.UiBuilder.Draw -= WindowSystem.Draw;
         PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUi;
+        PluginInterface.UiBuilder.OpenConfigUi -= ToggleMainUi;
         NameplateNumberRenderer.Dispose();
         PartyOrderNamePlateCoordinator.Dispose();
 
