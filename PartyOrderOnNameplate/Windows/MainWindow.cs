@@ -32,6 +32,14 @@ public class MainWindow : Window, IDisposable
         if (ImGui.Checkbox("Enabled", ref enabled))
             plugin.SetEnabled(enabled);
 
+        var disableForSelf = plugin.Configuration.DisableForSelf;
+        if (ImGui.Checkbox("Disable for self", ref disableForSelf))
+        {
+            plugin.Configuration.DisableForSelf = disableForSelf;
+            plugin.Configuration.Save();
+            Plugin.NamePlateGui.RequestRedraw();
+        }
+
         var position = plugin.Configuration.NumberPosition;
         if (ImGui.BeginCombo("Number Position", position.ToString()))
         {

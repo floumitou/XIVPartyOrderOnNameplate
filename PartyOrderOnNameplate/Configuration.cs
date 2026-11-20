@@ -11,6 +11,8 @@ public class Configuration : IPluginConfiguration
 
     public bool IsEnabled { get; set; } = true;
 
+    public bool DisableForSelf { get; set; } = true;
+
     public float PartyListUpdateInterval { get; set; } = 1.0f;
 
     public NumberPosition NumberPosition { get; set; } = NumberPosition.Left;

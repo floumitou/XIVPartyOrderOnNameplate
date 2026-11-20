@@ -5,8 +5,8 @@
     <!-- Manifest fields (see https://github.com/goatcorp/DalamudPackager/blob/827d88dc/DalamudPackager/DalamudPackager.cs#L420) -->
     <Author>Kippli</Author>
     <Name>PartyOrderOnNameplate</Name>
-    <Punchline>Displays party order numbers next to party members' nameplates.</Punchline>
-    <Description>Shows each party member's position in the party order alongside their in-game nameplate.</Description>
+    <Punchline>A simple plugin that displays party order numbers next to party members' nameplates (and possibly your own).</Punchline>
+    <Description>Displays each party member's current position in the party order beside their in-game nameplate, making the number easier to identify at a glance for targeting.</Description>
     <RepoUrl>https://github.com/floumitou/XIVPartyNumberNameplate</RepoUrl>
     <Tags>party;nameplate;qol</Tags>
   </PropertyGroup>

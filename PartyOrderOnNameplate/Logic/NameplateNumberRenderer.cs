@@ -39,6 +39,10 @@ public sealed class NameplateNumberRenderer : System.IDisposable
             if (handler.PlayerCharacter is not { } playerCharacter)
                 continue;
 
+            var localPlayerEntityId = Plugin.ObjectTable.LocalPlayer?.EntityId ?? Plugin.PlayerState.EntityId;
+            if (this.configuration.DisableForSelf && playerCharacter.EntityId == localPlayerEntityId)
+                continue;
+
             foreach (var (entityId, order) in this.partyHudSnapshot.Members)
             {
                 if (entityId != playerCharacter.EntityId)
