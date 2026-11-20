@@ -17,7 +17,7 @@ public class MainWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(400, 110),
+            MinimumSize = new Vector2(400, 150),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
@@ -38,7 +38,29 @@ public class MainWindow : Window, IDisposable
             Plugin.Log.Information($"Enabled set to {enabled}");
             plugin.Configuration.Save();
         }
-        
+
+        var position = plugin.Configuration.NumberPosition;
+        if (ImGui.BeginCombo("Number Position", position.ToString()))
+        {
+            foreach (var option in Enum.GetValues<NumberPosition>())
+            {
+                var selected = option == position;
+                if (ImGui.Selectable(option.ToString(), selected))
+                {
+                    plugin.Configuration.NumberPosition = option;
+                    plugin.Configuration.Save();
+                    Plugin.NamePlateGui.RequestRedraw();
+                }
+
+                if (selected)
+                    ImGui.SetItemDefaultFocus();
+            }
+
+            ImGui.EndCombo();
+        }
+
+        ImGui.TextDisabled("Top and Bottom use the nameplate title line.");
+
         var updateInterval = plugin.Configuration.PartyListUpdateInterval;
         ImGui.PushItemWidth(220f);
         if (ImGui.SliderFloat("Party List Update Interval (s)", ref updateInterval, 0f, 10.0f))

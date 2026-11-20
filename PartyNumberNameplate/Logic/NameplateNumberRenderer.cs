@@ -9,11 +9,16 @@ public sealed class NameplateNumberRenderer : System.IDisposable
 {
     private readonly INamePlateGui namePlateGui;
     private readonly PartyHudSnapshot partyHudSnapshot;
+    private readonly Configuration configuration;
 
-    public NameplateNumberRenderer(INamePlateGui namePlateGui, PartyHudSnapshot partyHudSnapshot)
+    public NameplateNumberRenderer(
+        INamePlateGui namePlateGui,
+        PartyHudSnapshot partyHudSnapshot,
+        Configuration configuration)
     {
         this.namePlateGui = namePlateGui;
         this.partyHudSnapshot = partyHudSnapshot;
+        this.configuration = configuration;
         this.namePlateGui.OnNamePlateUpdate += OnNamePlateDataUpdate;
     }
 
@@ -36,7 +41,34 @@ public sealed class NameplateNumberRenderer : System.IDisposable
                 if (entityId != playerCharacter.EntityId)
                     continue;
 
-                handler.NameParts.TextWrap = (new SeStringBuilder().Append($"[{order}] ").Build(), SeString.Empty);
+                var number = new SeStringBuilder().Append($"[{order}]").Build();
+                switch (this.configuration.NumberPosition)
+                {
+                    case NumberPosition.Left:
+                        handler.NameParts.TextWrap = (new SeStringBuilder().Append($"[{order}] ").Build(), SeString.Empty);
+                        break;
+                    case NumberPosition.Right:
+                        if (handler.FreeCompanyTag.Payloads.Count > 0)
+                        {
+                            handler.FreeCompanyTagParts.OuterWrap =
+                                (SeString.Empty, new SeStringBuilder().Append($" {number}").Build());
+                        }
+                        else
+                        {
+                            handler.NameParts.TextWrap =
+                                (SeString.Empty, new SeStringBuilder().Append($" {number}").Build());
+                        }
+                        break;
+                    case NumberPosition.Top:
+                    case NumberPosition.Bottom:
+                        handler.DisplayTitle = true;
+                        handler.IsPrefixTitle = this.configuration.NumberPosition == NumberPosition.Top;
+                        handler.TitleParts.TextWrap = this.configuration.NumberPosition == NumberPosition.Top
+                            ? (number, SeString.Empty)
+                            : (SeString.Empty, number);
+                        break;
+                }
+
                 break;
             }
         }

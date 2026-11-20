@@ -32,7 +32,7 @@ public sealed class Plugin : IDalamudPlugin
 
         MainWindow = new MainWindow(this);
         PartyOrderTracker = new PartyOrderTracker(Framework, Configuration);
-        NameplateNumberRenderer = new NameplateNumberRenderer(NamePlateGui, PartyOrderTracker.CurrentPartyList);
+        NameplateNumberRenderer = new NameplateNumberRenderer(NamePlateGui, PartyOrderTracker.CurrentPartyList, Configuration);
 
         WindowSystem.AddWindow(MainWindow);
 
