@@ -63,9 +63,8 @@ public sealed class NameplateNumberRenderer : System.IDisposable
                     case NumberPosition.Bottom:
                         handler.DisplayTitle = true;
                         handler.IsPrefixTitle = this.configuration.NumberPosition == NumberPosition.Top;
-                        handler.TitleParts.TextWrap = this.configuration.NumberPosition == NumberPosition.Top
-                            ? (number, SeString.Empty)
-                            : (SeString.Empty, number);
+                        handler.TitleParts.Text = number;
+                        handler.TitleParts.TextWrap = null;
                         break;
                 }
 

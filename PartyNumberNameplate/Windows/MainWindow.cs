@@ -17,7 +17,7 @@ public class MainWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(400, 150),
+            MinimumSize = new Vector2(400, 165),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
@@ -59,7 +59,9 @@ public class MainWindow : Window, IDisposable
             ImGui.EndCombo();
         }
 
-        ImGui.TextDisabled("Top and Bottom use the nameplate title line.");
+        ImGui.PushTextWrapPos(0.0f);
+        ImGui.TextDisabled("Currently titles are not shown in Top and Bottom mode due to plugin limitations.");
+        ImGui.PopTextWrapPos();
 
         var updateInterval = plugin.Configuration.PartyListUpdateInterval;
         ImGui.PushItemWidth(220f);
