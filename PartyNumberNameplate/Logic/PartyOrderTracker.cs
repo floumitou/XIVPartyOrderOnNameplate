@@ -10,7 +10,7 @@ public sealed class PartyOrderTracker : IDisposable
     private TimeSpan elapsed;
     private static readonly TimeSpan Interval = TimeSpan.FromSeconds(1);
 
-    public PartyList CurrentPartyList { get; } = new();
+    public PartyHudSnapshot CurrentPartyList { get; } = new();
 
     public PartyOrderTracker(IFramework framework)
     {
@@ -30,8 +30,8 @@ public sealed class PartyOrderTracker : IDisposable
 
         CurrentPartyList.Refresh();
 
-        foreach (var (member, order) in CurrentPartyList.Members)
-            Plugin.Log.Information($"Order: {order}, Name: {member.Name}");
+        foreach (var (name, order) in CurrentPartyList.Members)
+            Plugin.Log.Information($"Order: {order}, Name: {name}");
     }
 
     private bool UpdateInterval()
