@@ -15,6 +15,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
     [PluginService] internal static IFramework Framework { get; private set; } = null!;
+    [PluginService] internal static INamePlateGui NamePlateGui { get; private set; } = null!;
 
     private const string CommandName = "/pnnp";
 
@@ -23,6 +24,7 @@ public sealed class Plugin : IDalamudPlugin
     public readonly WindowSystem WindowSystem = new("PartyNumberNameplate");
     private MainWindow MainWindow { get; init; }
     internal PartyOrderTracker PartyOrderTracker { get; init; }
+    private NameplateNumberRenderer NameplateNumberRenderer { get; init; }
 
     public Plugin()
     {
@@ -30,6 +32,7 @@ public sealed class Plugin : IDalamudPlugin
 
         MainWindow = new MainWindow(this);
         PartyOrderTracker = new PartyOrderTracker(Framework);
+        NameplateNumberRenderer = new NameplateNumberRenderer(NamePlateGui, PartyOrderTracker.CurrentPartyList);
 
         WindowSystem.AddWindow(MainWindow);
 
@@ -50,6 +53,7 @@ public sealed class Plugin : IDalamudPlugin
         // Unregister all actions to not leak anything during disposal of plugin
         PluginInterface.UiBuilder.Draw -= WindowSystem.Draw;
         PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUi;
+        NameplateNumberRenderer.Dispose();
         PartyOrderTracker.Dispose();
 
         WindowSystem.RemoveAllWindows();

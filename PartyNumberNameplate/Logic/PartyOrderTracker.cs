@@ -28,10 +28,8 @@ public sealed class PartyOrderTracker : IDisposable
         if (!UpdateInterval())
             return;
 
-        CurrentPartyList.Refresh();
-
-        foreach (var (name, order) in CurrentPartyList.Members)
-            Plugin.Log.Information($"Order: {order}, Name: {name}");
+        if (CurrentPartyList.Refresh())
+            Plugin.NamePlateGui.RequestRedraw();
     }
 
     private bool UpdateInterval()
