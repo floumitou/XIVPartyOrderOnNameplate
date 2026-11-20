@@ -4,6 +4,7 @@ using Dalamud.Plugin;
 using System.IO;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
+using PartyNumberNameplate.Logic;
 using PartyNumberNameplate.Windows;
 
 namespace PartyNumberNameplate;
@@ -13,6 +14,8 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
     [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
+    [PluginService] internal static IFramework Framework { get; private set; } = null!;
+    [PluginService] internal static IPartyList PartyList { get; private set; } = null!;
 
     private const string CommandName = "/pnnp";
 
@@ -20,12 +23,14 @@ public sealed class Plugin : IDalamudPlugin
 
     public readonly WindowSystem WindowSystem = new("PartyNumberNameplate");
     private MainWindow MainWindow { get; init; }
+    internal PartyOrderTracker PartyOrderTracker { get; init; }
 
     public Plugin()
     {
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         MainWindow = new MainWindow(this);
+        PartyOrderTracker = new PartyOrderTracker(Framework);
 
         WindowSystem.AddWindow(MainWindow);
 
@@ -46,7 +51,8 @@ public sealed class Plugin : IDalamudPlugin
         // Unregister all actions to not leak anything during disposal of plugin
         PluginInterface.UiBuilder.Draw -= WindowSystem.Draw;
         PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUi;
-        
+        PartyOrderTracker.Dispose();
+
         WindowSystem.RemoveAllWindows();
 
         MainWindow.Dispose();
@@ -59,6 +65,6 @@ public sealed class Plugin : IDalamudPlugin
         // In response to the slash command, toggle the display status of our main ui
         MainWindow.Toggle();
     }
-    
+
     public void ToggleMainUi() => MainWindow.Toggle();
 }
