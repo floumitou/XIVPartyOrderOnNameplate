@@ -31,6 +31,9 @@ public sealed class NameplateNumberRenderer : System.IDisposable
         INamePlateUpdateContext context,
         IReadOnlyList<INamePlateUpdateHandler> handlers)
     {
+        if (!this.configuration.IsEnabled)
+            return;
+
         foreach (var handler in handlers)
         {
             if (handler.PlayerCharacter is not { } playerCharacter)

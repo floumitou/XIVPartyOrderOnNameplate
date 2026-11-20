@@ -9,25 +9,54 @@ public sealed class PartyOrderTracker : IDisposable
     private readonly Configuration configuration;
 
     private TimeSpan elapsed;
-    private static readonly TimeSpan Interval = TimeSpan.FromSeconds(1);
+    private bool isSubscribed;
 
     public PartyHudSnapshot CurrentPartyList { get; } = new();
 
     public PartyOrderTracker(IFramework framework, Configuration configuration)
     {
         this.framework = framework;
-        this.framework.Update += OnFrameworkUpdate;
         this.configuration = configuration;
+        if (this.configuration.IsEnabled)
+            Enable();
+    }
+
+    public void SetEnabled(bool enabled)
+    {
+        if (enabled)
+            Enable();
+        else
+            Disable();
     }
 
     public void Dispose()
     {
-        this.framework.Update -= OnFrameworkUpdate;
+        Disable();
+    }
+
+    private void Enable()
+    {
+        if (isSubscribed)
+            return;
+
+        elapsed = TimeSpan.Zero;
+        CurrentPartyList.Refresh();
+        framework.Update += OnFrameworkUpdate;
+        isSubscribed = true;
+    }
+
+    private void Disable()
+    {
+        if (!isSubscribed)
+            return;
+
+        framework.Update -= OnFrameworkUpdate;
+        isSubscribed = false;
     }
 
     private void OnFrameworkUpdate(IFramework framework)
     {
-        if (!configuration.IsEnabled ||!UpdateInterval())
+        if (!UpdateInterval())
             return;
 
         if (CurrentPartyList.Refresh())

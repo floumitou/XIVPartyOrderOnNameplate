@@ -30,11 +30,7 @@ public class MainWindow : Window, IDisposable
 
         var enabled = plugin.Configuration.IsEnabled;
         if (ImGui.Checkbox("Enabled", ref enabled))
-        {
-            plugin.Configuration.IsEnabled = enabled;
-            Plugin.Log.Information($"Enabled set to {enabled}");
-            plugin.Configuration.Save();
-        }
+            plugin.SetEnabled(enabled);
 
         var position = plugin.Configuration.NumberPosition;
         if (ImGui.BeginCombo("Number Position", position.ToString()))
@@ -79,9 +75,4 @@ public class MainWindow : Window, IDisposable
         }
     }
 
-    internal void ToggleEnabled()
-    {
-        plugin.Configuration.IsEnabled = !plugin.Configuration.IsEnabled;
-        plugin.Configuration.Save();
-    }
 }

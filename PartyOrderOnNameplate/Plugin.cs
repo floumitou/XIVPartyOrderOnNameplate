@@ -66,6 +66,7 @@ public sealed class Plugin : IDalamudPlugin
         MainWindow.Dispose();
 
         CommandManager.RemoveHandler(ConfigCommandName);
+        CommandManager.RemoveHandler(ToggleCommandName);
     }
 
     private void OnConfigCommand(string command, string args)
@@ -75,8 +76,19 @@ public sealed class Plugin : IDalamudPlugin
 
     private void OnToggleCommand(string command, string args)
     {
-        // TODO: implement toggling the plugin on and off, for now just open the config window
-        // MainWindow.ToggleEnabled();
+        SetEnabled(!Configuration.IsEnabled);
+    }
+
+    internal void SetEnabled(bool enabled)
+    {
+        if (Configuration.IsEnabled == enabled)
+            return;
+
+        Configuration.IsEnabled = enabled;
+        Configuration.Save();
+        PartyOrderTracker.SetEnabled(enabled);
+        NamePlateGui.RequestRedraw();
+        Log.Information($"Party order nameplates {(enabled ? "enabled" : "disabled")}");
     }
 
     public void ToggleMainUi() => MainWindow.Toggle();
