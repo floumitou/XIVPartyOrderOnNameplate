@@ -3,7 +3,7 @@ using System;
 
 namespace PartyOrderOnNameplate.Logic;
 
-public sealed class PartyOrderTracker : IDisposable
+public sealed class PartyOrderNamePlateCoordinator : IDisposable
 {
     private readonly IFramework framework;
     private readonly Configuration configuration;
@@ -13,7 +13,7 @@ public sealed class PartyOrderTracker : IDisposable
 
     public PartyHudSnapshot CurrentPartyList { get; } = new();
 
-    public PartyOrderTracker(IFramework framework, Configuration configuration)
+    public PartyOrderNamePlateCoordinator(IFramework framework, Configuration configuration)
     {
         this.framework = framework;
         this.configuration = configuration;

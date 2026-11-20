@@ -25,7 +25,7 @@ public sealed class Plugin : IDalamudPlugin
 
     public readonly WindowSystem WindowSystem = new("PartyOrderOnNameplate");
     private MainWindow MainWindow { get; init; }
-    internal PartyOrderTracker PartyOrderTracker { get; init; }
+    internal PartyOrderNamePlateCoordinator PartyOrderNamePlateCoordinator { get; init; }
     private NameplateNumberRenderer NameplateNumberRenderer { get; init; }
 
     public Plugin()
@@ -33,8 +33,8 @@ public sealed class Plugin : IDalamudPlugin
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         MainWindow = new MainWindow(this);
-        PartyOrderTracker = new PartyOrderTracker(Framework, Configuration);
-        NameplateNumberRenderer = new NameplateNumberRenderer(NamePlateGui, PartyOrderTracker.CurrentPartyList, Configuration);
+        PartyOrderNamePlateCoordinator = new PartyOrderNamePlateCoordinator(Framework, Configuration);
+        NameplateNumberRenderer = new NameplateNumberRenderer(NamePlateGui, PartyOrderNamePlateCoordinator.CurrentPartyList, Configuration);
 
         WindowSystem.AddWindow(MainWindow);
 
@@ -48,20 +48,16 @@ public sealed class Plugin : IDalamudPlugin
             HelpMessage = "Toggles party order on nameplate on and off"
         });
 
-
-        // Tell the UI system that we want our windows to be drawn through the window system
         PluginInterface.UiBuilder.Draw += WindowSystem.Draw;
-        // Adds another button doing the same but for the main ui of the plugin
         PluginInterface.UiBuilder.OpenMainUi += ToggleMainUi;
     }
 
     public void Dispose()
     {
-        // Unregister all actions to not leak anything during disposal of plugin
         PluginInterface.UiBuilder.Draw -= WindowSystem.Draw;
         PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUi;
         NameplateNumberRenderer.Dispose();
-        PartyOrderTracker.Dispose();
+        PartyOrderNamePlateCoordinator.Dispose();
 
         WindowSystem.RemoveAllWindows();
 
@@ -88,7 +84,7 @@ public sealed class Plugin : IDalamudPlugin
 
         Configuration.IsEnabled = enabled;
         Configuration.Save();
-        PartyOrderTracker.SetEnabled(enabled);
+        PartyOrderNamePlateCoordinator.SetEnabled(enabled);
         NamePlateGui.RequestRedraw();
         Log.Information($"Party order nameplates {(enabled ? "enabled" : "disabled")}");
     }

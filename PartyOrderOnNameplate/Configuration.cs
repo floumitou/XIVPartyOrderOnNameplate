@@ -17,7 +17,6 @@ public class Configuration : IPluginConfiguration
 
     public NumberPosition NumberPosition { get; set; } = NumberPosition.Left;
 
-    // The below exists just to make saving less cumbersome
     public void Save()
     {
         Plugin.PluginInterface.SavePluginConfig(this);
