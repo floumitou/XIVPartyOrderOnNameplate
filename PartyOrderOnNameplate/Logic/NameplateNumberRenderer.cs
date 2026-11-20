@@ -3,7 +3,7 @@ using Dalamud.Game.Gui.NamePlate;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 
-namespace PartyNumberNameplate.Logic;
+namespace PartyOrderOnNameplate.Logic;
 
 public sealed class NameplateNumberRenderer : System.IDisposable
 {

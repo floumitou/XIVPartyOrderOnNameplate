@@ -1,7 +1,7 @@
 using Dalamud.Configuration;
 using System;
 
-namespace PartyNumberNameplate;
+namespace PartyOrderOnNameplate;
 
 [Serializable]
 public class Configuration : IPluginConfiguration

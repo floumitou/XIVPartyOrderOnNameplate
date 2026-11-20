@@ -1,7 +1,7 @@
 using Dalamud.Plugin.Services;
 using System;
 
-namespace PartyNumberNameplate.Logic;
+namespace PartyOrderOnNameplate.Logic;
 
 public sealed class PartyOrderTracker : IDisposable
 {
@@ -27,7 +27,7 @@ public sealed class PartyOrderTracker : IDisposable
 
     private void OnFrameworkUpdate(IFramework framework)
     {
-        if (!UpdateInterval())
+        if (!configuration.IsEnabled ||!UpdateInterval())
             return;
 
         if (CurrentPartyList.Refresh())

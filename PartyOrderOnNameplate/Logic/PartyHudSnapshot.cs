@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
-namespace PartyNumberNameplate.Logic;
+namespace PartyOrderOnNameplate.Logic;
 
 public sealed class PartyHudSnapshot
 {

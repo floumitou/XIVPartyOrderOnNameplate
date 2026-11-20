@@ -1,13 +1,12 @@
 using Dalamud.Game.Command;
+using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using System.IO;
-using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
-using PartyNumberNameplate.Logic;
-using PartyNumberNameplate.Windows;
+using PartyOrderOnNameplate.Logic;
+using PartyOrderOnNameplate.Windows;
 
-namespace PartyNumberNameplate;
+namespace PartyOrderOnNameplate;
 
 public sealed class Plugin : IDalamudPlugin
 {
@@ -17,11 +16,12 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IFramework Framework { get; private set; } = null!;
     [PluginService] internal static INamePlateGui NamePlateGui { get; private set; } = null!;
 
-    private const string CommandName = "/pnnp";
+    private const string ConfigCommandName = "/poonconf";
+    private const string ToggleCommandName = "/poon";
 
     public Configuration Configuration { get; init; }
 
-    public readonly WindowSystem WindowSystem = new("PartyNumberNameplate");
+    public readonly WindowSystem WindowSystem = new("PartyOrderOnNameplate");
     private MainWindow MainWindow { get; init; }
     internal PartyOrderTracker PartyOrderTracker { get; init; }
     private NameplateNumberRenderer NameplateNumberRenderer { get; init; }
@@ -36,9 +36,14 @@ public sealed class Plugin : IDalamudPlugin
 
         WindowSystem.AddWindow(MainWindow);
 
-        CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
+        CommandManager.AddHandler(ConfigCommandName, new CommandInfo(OnConfigCommand)
         {
-            HelpMessage = "Opens the PartyNumberNameplate configuration window"
+            HelpMessage = "Opens the PartyOrderOnNameplate configuration window"
+        });
+
+        CommandManager.AddHandler(ToggleCommandName, new CommandInfo(OnToggleCommand)
+        {
+            HelpMessage = "Toggles party order on nameplate on and off"
         });
 
 
@@ -60,13 +65,18 @@ public sealed class Plugin : IDalamudPlugin
 
         MainWindow.Dispose();
 
-        CommandManager.RemoveHandler(CommandName);
+        CommandManager.RemoveHandler(ConfigCommandName);
     }
 
-    private void OnCommand(string command, string args)
+    private void OnConfigCommand(string command, string args)
     {
-        // In response to the slash command, toggle the display status of our main ui
         MainWindow.Toggle();
+    }
+
+    private void OnToggleCommand(string command, string args)
+    {
+        // TODO: implement toggling the plugin on and off, for now just open the config window
+        //MainWindow.ToggleEnabled();
     }
 
     public void ToggleMainUi() => MainWindow.Toggle();

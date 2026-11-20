@@ -3,17 +3,14 @@ using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Windowing;
 
-namespace PartyNumberNameplate.Windows;
+namespace PartyOrderOnNameplate.Windows;
 
 public class MainWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
 
-    // We give this window a hidden ID using ##.
-    // The user will see "My Amazing Window" as window title,
-    // but for ImGui the ID is "My Amazing Window##With a hidden ID"
     public MainWindow(Plugin plugin)
-        : base("Party Number Nameplate##PNNP_MainWindow", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
+        : base("Party Order on Nameplate##POON_MainWindow", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -80,5 +77,11 @@ public class MainWindow : Window, IDisposable
             ImGui.TextWrapped("Approx. how often the plugin checks the party list for changes. Though even on 0.0 (every frame) the Plugin should not have a significant impact on performance.");
             ImGui.EndTooltip();
         }
+    }
+
+    internal void ToggleEnabled()
+    {
+        plugin.Configuration.IsEnabled = !plugin.Configuration.IsEnabled;
+        plugin.Configuration.Save();
     }
 }
