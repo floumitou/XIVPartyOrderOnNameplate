@@ -31,7 +31,7 @@ public sealed class Plugin : IDalamudPlugin
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         MainWindow = new MainWindow(this);
-        PartyOrderTracker = new PartyOrderTracker(Framework);
+        PartyOrderTracker = new PartyOrderTracker(Framework, Configuration);
         NameplateNumberRenderer = new NameplateNumberRenderer(NamePlateGui, PartyOrderTracker.CurrentPartyList);
 
         WindowSystem.AddWindow(MainWindow);

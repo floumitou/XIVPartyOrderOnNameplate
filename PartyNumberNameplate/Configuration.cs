@@ -11,6 +11,8 @@ public class Configuration : IPluginConfiguration
 
     public bool IsEnabled { get; set; } = true;
 
+    public float PartyListUpdateInterval { get; set; } = 1.0f;
+
     // The below exists just to make saving less cumbersome
     public void Save()
     {

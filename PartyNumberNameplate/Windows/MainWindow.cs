@@ -13,11 +13,11 @@ public class MainWindow : Window, IDisposable
     // The user will see "My Amazing Window" as window title,
     // but for ImGui the ID is "My Amazing Window##With a hidden ID"
     public MainWindow(Plugin plugin)
-        : base("PartyNumberNameplate##PNNP_MainWindow", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
+        : base("Party Number Nameplate##PNNP_MainWindow", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(200, 90),
+            MinimumSize = new Vector2(400, 110),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
@@ -37,6 +37,24 @@ public class MainWindow : Window, IDisposable
             plugin.Configuration.IsEnabled = enabled;
             Plugin.Log.Information($"Enabled set to {enabled}");
             plugin.Configuration.Save();
+        }
+        
+        var updateInterval = plugin.Configuration.PartyListUpdateInterval;
+        ImGui.PushItemWidth(220f);
+        if (ImGui.SliderFloat("Party List Update Interval (s)", ref updateInterval, 0f, 10.0f))
+        {
+            plugin.Configuration.PartyListUpdateInterval = updateInterval;
+            plugin.Configuration.Save();
+        }
+        ImGui.PopItemWidth();
+        ImGui.SameLine();
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetNextWindowSize(new Vector2(350, 0));
+            ImGui.BeginTooltip();
+            ImGui.TextWrapped("Approx. how often the plugin checks the party list for changes. Though even on 0.0 (every frame) the Plugin should not have a significant impact on performance.");
+            ImGui.EndTooltip();
         }
     }
 }
