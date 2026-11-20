@@ -7,7 +7,7 @@ Party Order on Nameplate is a FFXIV plugin that displays each party member's cur
 Requires XIVLauncher.
 This plugin is not currently distributed through the official Dalamud plugin repository. To install a GitHub release:
 
-1. Download the latest release ZIP from the [Releases page](https://github.com/floumitou/XIVPartyNumberNameplate/releases). (PartyOrderOnNameplate.7z)
+1. Download the latest release ZIP from the [Releases page](https://github.com/floumitou/XIVPartyNumberNameplate/releases). (PartyOrderOnNameplate.zip)
 2. Extract the ZIP.
 3. In game, open Dalamud settings and enable **Experimental** or **Developer** mode.
 4. Under **Dev Plugin Locations**, add the extracted dll, then save the settings.
