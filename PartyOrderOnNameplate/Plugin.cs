@@ -76,7 +76,7 @@ public sealed class Plugin : IDalamudPlugin
     private void OnToggleCommand(string command, string args)
     {
         // TODO: implement toggling the plugin on and off, for now just open the config window
-        //MainWindow.ToggleEnabled();
+        // MainWindow.ToggleEnabled();
     }
 
     public void ToggleMainUi() => MainWindow.Toggle();
